@@ -83,12 +83,11 @@
             </p>
             <div class="variant-btns">
               {% for val in option.values %}
-                {%- assign is_active = current.options[forloop.parentloop.index0] == val -%}
                 <button
-                  class="variant-btn {% if is_active %}active{% endif %}"
+                  class="variant-btn {% if current.options[forloop.parentloop.index0] == val %}active{% endif %}"
                   data-option-idx="{{ forloop.parentloop.index0 }}"
                   data-option-val="{{ val }}"
-                  aria-pressed="{{ is_active }}"
+                  aria-pressed="{% if current.options[forloop.parentloop.index0] == val %}true{% else %}false{% endif %}"
                 >{{ val }}</button>
               {% endfor %}
             </div>
