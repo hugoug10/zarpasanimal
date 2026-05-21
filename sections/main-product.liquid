@@ -23,7 +23,7 @@
           <img
             src="{{ img | img_url: '140x140', crop: 'center' }}"
             alt="{{ img.alt | default: product.title }}"
-            loading="{{ forloop.first | ternary: 'eager', 'lazy' }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
             width="68" height="68"
           >
         </button>
@@ -110,7 +110,7 @@
           {% unless current.available %}disabled{% endunless %}
           aria-label="Añadir al carrito"
         >
-          {{ current.available | ternary: 'Añadir al carrito', 'Agotado' }}
+          {% if current.available %}Añadir al carrito{% else %}Agotado{% endif %}
         </button>
         <a href="/checkout?variant={{ current.id }}" class="btn btn-secondary pdp-now">
           Comprar ahora
@@ -167,7 +167,7 @@
     onclick="document.querySelector('[data-atc]').click()"
     {% unless current.available %}disabled{% endunless %}
   >
-    {{ current.available | ternary: 'Añadir al carrito', 'Agotado' }}
+    {% if current.available %}Añadir al carrito{% else %}Agotado{% endif %}
   </button>
 </div>
 
