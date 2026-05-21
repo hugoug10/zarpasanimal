@@ -1,0 +1,34 @@
+<section class="proof-band">
+  <div class="container">
+    {% if section.settings.eyebrow != blank %}
+      <p class="t-micro" style="color:rgba(242,237,230,.55);margin-bottom:10px;" data-reveal="up">
+        {{ section.settings.eyebrow }}
+      </p>
+    {% endif %}
+    <div class="proof-band__num" data-reveal="scale">
+      <span
+        data-count="{{ section.settings.number }}"
+        data-count-prefix="{{ section.settings.prefix }}"
+        data-count-suffix="{{ section.settings.suffix }}"
+        data-count-dur="1800"
+      >{{ section.settings.prefix }}0{{ section.settings.suffix }}</span>
+    </div>
+    {% if section.settings.label != blank %}
+      <p class="proof-band__label" data-reveal="up" data-delay="250">{{ section.settings.label }}</p>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Social Proof",
+  "settings": [
+    { "type": "text",   "id": "eyebrow", "label": "Etiqueta",  "default": "Comunidad ZarpasAnimal" },
+    { "type": "text",   "id": "prefix",  "label": "Prefijo",   "default": "+" },
+    { "type": "number", "id": "number",  "label": "Número",    "default": 1800 },
+    { "type": "text",   "id": "suffix",  "label": "Sufijo" },
+    { "type": "text",   "id": "label",   "label": "Etiqueta",  "default": "mascotas ya van a todas partes." }
+  ],
+  "presets": [{ "name": "Social Proof" }]
+}
+{% endschema %}

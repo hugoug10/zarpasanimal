@@ -1,0 +1,37 @@
+{% if section.settings.enabled %}
+<div class="announcement-bar" role="region" aria-label="Anuncios">
+  <div class="announcement-bar__track" aria-hidden="true">
+    {% for i in (1..2) %}
+      {% for block in section.blocks %}
+        <span class="announcement-bar__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Mostrar", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "msg",
+      "name": "Mensaje",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texto", "default": "Envío gratuito en pedidos +€49" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Announcement Bar",
+    "blocks": [
+      { "type": "msg", "settings": { "text": "Envío gratuito en pedidos +€49" } },
+      { "type": "msg", "settings": { "text": "Entrega en 2–4 días a toda España" } },
+      { "type": "msg", "settings": { "text": "30 días para devolver, sin preguntas" } }
+    ]
+  }]
+}
+{% endschema %}

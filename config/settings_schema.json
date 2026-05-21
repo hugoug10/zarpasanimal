@@ -1,0 +1,313 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "ZarpasAnimal",
+    "theme_version": "1.0.0",
+    "theme_author": "ZarpasAnimal",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_bone",
+        "label": "Background (Bone)",
+        "default": "#F2EDE6"
+      },
+      {
+        "type": "color",
+        "id": "color_night",
+        "label": "Night (Dark)",
+        "default": "#1A1714"
+      },
+      {
+        "type": "color",
+        "id": "color_clay",
+        "label": "Clay (Brand)",
+        "default": "#B8977A"
+      },
+      {
+        "type": "color",
+        "id": "color_stone",
+        "label": "Stone (Muted text)",
+        "default": "#8C8278"
+      },
+      {
+        "type": "color",
+        "id": "color_sage",
+        "label": "Sage (Accent)",
+        "default": "#9CAF88"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "instrument_serif_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "inter_n4"
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "label": "Base font size (px)",
+        "min": 14,
+        "max": 18,
+        "step": 1,
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Logo width (px)",
+        "min": 60,
+        "max": 300,
+        "step": 10,
+        "default": 140
+      },
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "Logo text (if no image)",
+        "default": "ZarpasAnimal"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          { "value": "drawer", "label": "Drawer (slide-in)" },
+          { "value": "page",   "label": "Cart page" }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_free_shipping_bar",
+        "label": "Show free shipping progress bar",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_free_shipping_threshold",
+        "label": "Free shipping threshold (in cents)",
+        "default": "4900"
+      }
+    ]
+  },
+  {
+    "name": "Announcement bar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "announcement_enabled",
+        "label": "Show announcement bar",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "announcement_bg",
+        "label": "Background color",
+        "default": "#1A1714"
+      },
+      {
+        "type": "color",
+        "id": "announcement_color",
+        "label": "Text color",
+        "default": "#F2EDE6"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "nav_menu",
+        "label": "Navigation menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "header_transparent",
+        "label": "Transparent header over hero",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "footer_logo",
+        "label": "Footer logo (leave empty to use header logo)"
+      },
+      {
+        "type": "richtext",
+        "id": "footer_description",
+        "label": "Brand description",
+        "default": "<p>Accesorios premium para perros y gatos que mejoran su calidad de vida y la tuya.</p>"
+      },
+      {
+        "type": "text",
+        "id": "footer_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "footer_tiktok",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "text",
+        "id": "footer_copyright",
+        "label": "Copyright text",
+        "default": "© 2025 ZarpasAnimal. Todos los derechos reservados."
+      },
+      {
+        "type": "link_list",
+        "id": "footer_menu_1",
+        "label": "Footer menu 1",
+        "default": "footer"
+      },
+      {
+        "type": "text",
+        "id": "footer_menu_1_title",
+        "label": "Menu 1 heading",
+        "default": "Tienda"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_menu_2",
+        "label": "Footer menu 2"
+      },
+      {
+        "type": "text",
+        "id": "footer_menu_2_title",
+        "label": "Menu 2 heading",
+        "default": "Ayuda"
+      }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "card_show_rating",
+        "label": "Show star rating",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_quick_add",
+        "label": "Show quick-add button on hover",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "Image aspect ratio",
+        "options": [
+          { "value": "square",    "label": "Square (1:1)" },
+          { "value": "portrait",  "label": "Portrait (3:4)" },
+          { "value": "landscape", "label": "Landscape (4:3)" }
+        ],
+        "default": "square"
+      }
+    ]
+  },
+  {
+    "name": "Search",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "search_enabled",
+        "label": "Enable search in header",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "animations_enabled",
+        "label": "Enable scroll animations",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cursor_enabled",
+        "label": "Enable custom cursor (desktop)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "parallax_enabled",
+        "label": "Enable parallax on hero",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social sharing",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share on Facebook",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Share on X (Twitter)",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Share on Pinterest",
+        "default": true
+      }
+    ]
+  }
+]

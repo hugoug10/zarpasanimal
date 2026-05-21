@@ -1,0 +1,65 @@
+<div class="page-about">
+
+  <div class="about-hero">
+    {% if section.settings.hero_image %}
+      <img
+        src="{{ section.settings.hero_image | img_url: '1800x' }}"
+        alt="{{ section.settings.hero_image.alt | default: shop.name }}"
+        loading="eager"
+        width="1800" height="1013"
+      >
+    {% endif %}
+    <div class="about-hero__text">
+      <blockquote data-reveal="up">{{ section.settings.hero_quote }}</blockquote>
+    </div>
+  </div>
+
+  <div class="about-body container" data-stagger>
+    {{ section.settings.body_text }}
+  </div>
+
+  <div class="container">
+    <div class="about-values" data-stagger>
+      {% for block in section.blocks %}
+        <div {{ block.shopify_attributes }}>
+          <p class="about-value__label">{{ block.settings.label }}</p>
+          <p class="about-value__text">{{ block.settings.text }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:64px;padding-bottom:96px;" data-reveal="up">
+    <a href="{{ routes.collections_url }}" class="btn btn-primary" data-magnetic>
+      Ver la colección
+    </a>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "About",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image",  "label": "Imagen hero" },
+    { "type": "textarea",     "id": "hero_quote",  "label": "Cita hero",  "default": "¿Por qué los productos para mascotas tienen que ser feos?" },
+    { "type": "richtext",     "id": "body_text",   "label": "Texto principal",
+      "default": "<p>FAWN nació de una pregunta que no pudimos ignorar. Llevábamos meses buscando una cama para Mochi — nuestra golden de 3 años. Encontrábamos dos opciones: barato y feo, o caro y también bastante feo.</p><p>Así que decidimos hacer algo al respecto.</p>" }
+  ],
+  "blocks": [{
+    "type": "value", "name": "Valor de marca",
+    "settings": [
+      { "type": "text",     "id": "label", "label": "Título", "default": "Sin atajos" },
+      { "type": "textarea", "id": "text",  "label": "Texto",  "default": "Materiales que duran. Sin atajos en producción." }
+    ]
+  }],
+  "presets": [{
+    "name": "About",
+    "blocks": [
+      { "type": "value", "settings": { "label": "Sin atajos",   "text": "Materiales que duran. Sin compromisos en la producción." } },
+      { "type": "value", "settings": { "label": "Sin fealdad",  "text": "Cada pieza tiene intención visual. Diseño como decisión." } },
+      { "type": "value", "settings": { "label": "Sin bullshit", "text": "Hablamos claro. Si algo falla, lo arreglamos sin dramas." } }
+    ]
+  }]
+}
+{% endschema %}

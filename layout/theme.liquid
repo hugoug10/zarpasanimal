@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>{% if request.page_type == 'index' %}{{ shop.name }} — {{ shop.description | default: 'A donde vayas, llévalos.' }}{% else %}{{ page_title }} — {{ shop.name }}{% endif %}</title>
+  {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {% if settings.favicon %}<link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">{% endif %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:type" content="website">
+  {% if settings.share_image %}<meta property="og:image" content="{{ settings.share_image | img_url: '1200x630' }}">{% endif %}
+  {{ content_for_header }}
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+</head>
+<body class="t-{{ request.page_type | handle }}{% if customer %} logged-in{% endif %}">
+  <a class="skip-link" href="#main">Ir al contenido</a>
+  {% section 'announcement-bar' %}
+  {% section 'header' %}
+  <main id="main" tabindex="-1">{{ content_for_layout }}</main>
+  {% section 'footer' %}
+  {% render 'cart-drawer' %}
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+  <div class="cursor-dot"  aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>document.documentElement.classList.remove('no-js')</script>
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
+</html>

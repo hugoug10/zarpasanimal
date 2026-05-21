@@ -1,0 +1,56 @@
+<section class="newsletter">
+  <div class="newsletter__inner" data-stagger>
+
+    {% if section.settings.eyebrow != blank %}
+      <p class="t-micro" style="color:rgba(242,237,230,.4);margin-bottom:10px;">{{ section.settings.eyebrow }}</p>
+    {% endif %}
+
+    <h2 class="newsletter__title">{{ section.settings.title }}</h2>
+    <p class="newsletter__sub">{{ section.settings.subtitle }}</p>
+
+    {% form 'customer', id: 'newsletter-form', data-newsletter: '' %}
+      <input type="hidden" name="contact[tags]" value="newsletter,zarpasanimal">
+      <div class="newsletter__form">
+        <input
+          id="newsletter-email"
+          class="newsletter__input"
+          type="email"
+          name="contact[email]"
+          placeholder="{{ section.settings.placeholder | default: 'tu@email.com' }}"
+          autocomplete="email"
+          required
+          aria-label="Email"
+        >
+        <button type="submit" class="btn btn-primary" data-magnetic>
+          {{ section.settings.cta | default: 'Unirme' }}
+        </button>
+      </div>
+      {% if form.posted_successfully? %}
+        <p style="color:var(--sage);font-size:13px;margin-top:12px;text-align:center;" role="status">
+          {{ section.settings.success | default: '¡Ya eres parte de ZarpasAnimal!' }}
+        </p>
+      {% endif %}
+    {% endform %}
+
+    {% if section.settings.note != blank %}
+      <p class="newsletter__note">{{ section.settings.note }}</p>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",     "label": "Etiqueta" },
+    { "type": "text",     "id": "title",       "label": "Título",      "default": "Antes de que se acaben." },
+    { "type": "textarea", "id": "subtitle",    "label": "Subtítulo",   "default": "Los nuevos colores y ediciones especiales los anunciamos aquí primero. Sin spam." },
+    { "type": "text",     "id": "placeholder", "label": "Placeholder", "default": "tu@email.com" },
+    { "type": "text",     "id": "cta",         "label": "Botón",       "default": "Unirme" },
+    { "type": "text",     "id": "success",     "label": "Mensaje OK",  "default": "¡Ya eres parte de ZarpasAnimal!" },
+    { "type": "text",     "id": "note",        "label": "Nota legal",  "default": "Ya somos 3.200 familias. Puedes darte de baja cuando quieras." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

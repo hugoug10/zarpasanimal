@@ -1,0 +1,59 @@
+<div class="collection-hero" data-reveal="up">
+  <div class="container">
+    <h1 class="collection-hero__title">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <p class="collection-hero__desc">{{ collection.description }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="collection-grid-wrap section">
+  <div class="container">
+
+    <div class="collection-filters">
+      <p class="collection-count t-micro">{{ collection.products_count }} productos</p>
+    </div>
+
+    {% paginate collection.products by section.settings.per_page %}
+
+      <div class="products-grid" data-stagger>
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% else %}
+          <p style="color:var(--stone);grid-column:1/-1;text-align:center;padding:40px 0;">
+            No hay productos en esta colección todavía.
+          </p>
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <nav aria-label="Paginación" style="display:flex;justify-content:center;gap:8px;margin-top:48px;">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="btn btn-secondary">← Anterior</a>
+          {% endif %}
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <a href="{{ part.url }}" class="btn btn-secondary" style="min-width:44px;padding:14px;">{{ part.title }}</a>
+            {% else %}
+              <span class="btn" style="min-width:44px;padding:14px;background:var(--clay);color:var(--bone);">{{ part.title }}</span>
+            {% endif %}
+          {% endfor %}
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="btn btn-secondary">Siguiente →</a>
+          {% endif %}
+        </nav>
+      {% endif %}
+
+    {% endpaginate %}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Main",
+  "settings": [
+    { "type": "range", "id": "per_page", "min": 8, "max": 24, "step": 4, "label": "Productos por página", "default": 12 }
+  ]
+}
+{% endschema %}

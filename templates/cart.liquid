@@ -1,0 +1,69 @@
+<div class="cart-page section">
+  <div class="container">
+
+    <h1 class="cart-page__title" data-reveal="up">Tu carrito</h1>
+
+    {% if cart.item_count > 0 %}
+      <div class="cart-page__grid">
+
+        <div>
+          {% for item in cart.items %}
+            <div class="cart-item" data-line="{{ forloop.index }}" style="border-bottom:1px solid var(--bone-2);padding-bottom:24px;margin-bottom:24px;">
+              <div style="display:grid;grid-template-columns:100px 1fr;gap:16px;">
+                <a href="{{ item.url }}">
+                  <img src="{{ item.image | img_url: '200x200', crop: 'center' }}" alt="{{ item.title }}" width="100" height="100" style="border-radius:var(--r-md);object-fit:cover;">
+                </a>
+                <div>
+                  <a href="{{ item.url }}" style="font-weight:500;font-size:15px;">{{ item.product.title }}</a>
+                  {% unless item.variant.title == 'Default Title' %}
+                    <p style="font-size:13px;color:var(--stone);margin-top:4px;">{{ item.variant.title }}</p>
+                  {% endunless %}
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
+                    <div class="qty-wrap" data-line="{{ forloop.index }}">
+                      <button class="qty-btn" data-action="minus">−</button>
+                      <span class="qty-val">{{ item.quantity }}</span>
+                      <button class="qty-btn" data-action="plus">+</button>
+                    </div>
+                    <span style="font-weight:500;">{{ item.line_price | money }}</span>
+                  </div>
+                  <button class="cart-item__remove" data-line="{{ forloop.index }}" style="margin-top:8px;">Eliminar</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="cart-page__summary" data-reveal="right">
+          <h3>Resumen del pedido</h3>
+          <div class="cart-summary-row">
+            <span style="color:var(--stone);">Subtotal</span>
+            <span id="cart-page-subtotal">{{ cart.total_price | money }}</span>
+          </div>
+          <div class="cart-summary-row">
+            <span style="color:var(--stone);">Envío</span>
+            <span style="color:var(--sage);font-weight:500;">
+              {% if cart.total_price >= 4900 %}Gratis{% else %}Calculado al pagar{% endif %}
+            </span>
+          </div>
+          <div class="cart-summary-row total">
+            <span>Total</span>
+            <span id="cart-page-total">{{ cart.total_price | money }}</span>
+          </div>
+          <a href="/checkout" class="btn btn-primary" style="width:100%;height:52px;margin-top:8px;">
+            Finalizar compra →
+          </a>
+          <a href="/collections/all" style="text-align:center;font-size:13px;color:var(--stone);display:block;" class="link-line">
+            Seguir comprando
+          </a>
+        </div>
+
+      </div>
+    {% else %}
+      <div style="text-align:center;padding:80px 0;">
+        <p style="font-size:18px;margin-bottom:24px;color:var(--stone);">Tu carrito está vacío.</p>
+        <a href="/collections/all" class="btn btn-primary">Ver la colección</a>
+      </div>
+    {% endif %}
+
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="page-contact container">
+
+  <div class="contact-info" data-reveal="left">
+    <h1 class="contact-info__title">{{ section.settings.title }}</h1>
+    <p class="contact-info__sub">{{ section.settings.sub }}</p>
+
+    <div class="contact-info__item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+    </div>
+
+    {% if section.settings.instagram != blank %}
+      <div class="contact-info__item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+        <a href="{{ section.settings.instagram }}" target="_blank" rel="noopener">@zarpasanimal</a>
+      </div>
+    {% endif %}
+
+    <div class="contact-info__item" style="margin-top:16px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span>Lunes–Viernes 9h–18h CET · Respuesta en &lt;2h</span>
+    </div>
+  </div>
+
+  <div data-reveal="right">
+    {% form 'contact', id: 'contact-form', data-contact-form: '' %}
+      {% if form.posted_successfully? %}
+        <div style="padding:24px;background:var(--bone);border-radius:var(--r-lg);text-align:center;" role="status">
+          <p style="font-size:16px;font-weight:500;margin-bottom:6px;">✓ Mensaje enviado</p>
+          <p style="color:var(--stone);">Te respondemos en menos de 2 horas.</p>
+        </div>
+      {% else %}
+        <div class="contact-form">
+          {% if form.errors %}
+            <div style="padding:14px;background:rgba(184,151,122,.12);border-radius:var(--r-md);font-size:13px;color:var(--night);" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+
+          <div class="form-field">
+            <label class="form-label" for="contact-name">Nombre</label>
+            <input class="form-input" type="text" id="contact-name" name="contact[name]" autocomplete="name" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="contact-email">Email</label>
+            <input class="form-input" type="email" id="contact-email" name="contact[email]" autocomplete="email" required>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="contact-order">Número de pedido (opcional)</label>
+            <input class="form-input" type="text" id="contact-order" name="contact[order]" placeholder="#ZA-">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="contact-msg">Mensaje</label>
+            <textarea class="form-textarea" id="contact-msg" name="contact[body]" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary form-submit" data-magnetic>
+            Enviar mensaje
+          </button>
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Contact",
+  "settings": [
+    { "type": "text", "id": "title",     "label": "Título",     "default": "Estamos aquí." },
+    { "type": "text", "id": "sub",       "label": "Subtítulo",  "default": "Respondemos en menos de 2 horas de lunes a viernes." },
+    { "type": "text", "id": "email",     "label": "Email",      "default": "hola@zarpasanimal.com" },
+    { "type": "url",  "id": "instagram", "label": "Instagram URL" }
+  ],
+  "presets": [{ "name": "Contact" }]
+}
+{% endschema %}

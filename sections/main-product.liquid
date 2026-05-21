@@ -1,0 +1,180 @@
+{%- assign current = product.selected_or_first_available_variant -%}
+
+<nav class="pdp-breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ routes.root_url }}">Inicio</a>
+  <span aria-hidden="true">/</span>
+  <a href="{{ routes.collections_url }}">Tienda</a>
+  <span aria-hidden="true">/</span>
+  <span aria-current="page">{{ product.title }}</span>
+</nav>
+
+<div class="pdp container">
+
+  <!-- Gallery -->
+  <div class="pdp-gallery">
+    <div class="pdp-thumbs" role="list" aria-label="Imágenes del producto">
+      {% for img in product.images limit: 6 %}
+        <button
+          class="pdp-thumb {% if forloop.first %}active{% endif %}"
+          data-src="{{ img | img_url: '900x1125' }}"
+          aria-label="Imagen {{ forloop.index }}"
+          role="listitem"
+        >
+          <img
+            src="{{ img | img_url: '140x140', crop: 'center' }}"
+            alt="{{ img.alt | default: product.title }}"
+            loading="{{ forloop.first | ternary: 'eager', 'lazy' }}"
+            width="68" height="68"
+          >
+        </button>
+      {% endfor %}
+    </div>
+
+    <div class="pdp-main-img">
+      <img
+        id="pdp-main-img"
+        src="{{ product.featured_image | img_url: '900x1125' }}"
+        srcset="{{ product.featured_image | img_url: '600x750' }} 600w, {{ product.featured_image | img_url: '900x1125' }} 900w"
+        sizes="(max-width:900px) 100vw, 50vw"
+        alt="{{ product.featured_image.alt | default: product.title }}"
+        loading="eager"
+        fetchpriority="high"
+        width="900" height="1125"
+      >
+    </div>
+  </div>
+
+  <!-- Buy block -->
+  <div class="pdp-buy">
+
+    <h1 class="pdp-title">{{ product.title }}</h1>
+
+    <div class="pdp-rating">
+      <div class="pdp-stars" aria-label="5 de 5">
+        {% for i in (1..5) %}
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color:var(--clay)" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        {% endfor %}
+      </div>
+      <a href="#reviews" class="pdp-rating-count link-line">Ver reseñas</a>
+    </div>
+
+    <div class="pdp-price">
+      <span class="pdp-price__current" data-price>{{ current.price | money }}</span>
+      <span class="pdp-price__free">Envío gratis</span>
+    </div>
+
+    <div class="pdp-divider"></div>
+
+    <!-- Variants -->
+    {%- unless product.has_only_default_variant -%}
+      <div
+        data-variants="{{ product.variants | json | escape }}"
+        data-current-options="{{ current.options | json | escape }}"
+      >
+        {% for option in product.options_with_values %}
+          <div style="margin-bottom:16px;">
+            <p class="variant-label">
+              {{ option.name }}:
+              <span class="variant-label__val" data-option-val-label="{{ forloop.index0 }}">
+                {{ current.options[forloop.index0] }}
+              </span>
+            </p>
+            <div class="variant-btns">
+              {% for val in option.values %}
+                {%- assign is_active = current.options[forloop.parentloop.index0] == val -%}
+                <button
+                  class="variant-btn {% if is_active %}active{% endif %}"
+                  data-option-idx="{{ forloop.parentloop.index0 }}"
+                  data-option-val="{{ val }}"
+                  aria-pressed="{{ is_active }}"
+                >{{ val }}</button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {%- endunless -%}
+
+    <div class="pdp-divider"></div>
+
+    <!-- Form -->
+    {% form 'product', product, id: 'product-form', data-product-form: '' %}
+      <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
+      <div class="pdp-actions">
+        <button
+          type="submit"
+          class="btn btn-primary pdp-atc"
+          data-atc
+          data-magnetic
+          {% unless current.available %}disabled{% endunless %}
+          aria-label="Añadir al carrito"
+        >
+          {{ current.available | ternary: 'Añadir al carrito', 'Agotado' }}
+        </button>
+        <a href="/checkout?variant={{ current.id }}" class="btn btn-secondary pdp-now">
+          Comprar ahora
+        </a>
+      </div>
+    {% endform %}
+
+    <!-- Trust -->
+    <div class="pdp-trust">
+      <div class="pdp-trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Entrega<br>2–4 días</span>
+      </div>
+      <div class="pdp-trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        <span>30 días<br>devolución</span>
+      </div>
+      <div class="pdp-trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Materiales<br>certificados</span>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="pdp-tabs" data-tabs>
+      <div class="pdp-tab-nav" role="tablist">
+        <button class="pdp-tab-btn active" data-tab-btn="desc" role="tab" aria-selected="true">Descripción</button>
+        <button class="pdp-tab-btn" data-tab-btn="specs" role="tab" aria-selected="false">Características</button>
+        <button class="pdp-tab-btn" data-tab-btn="sizes" role="tab" aria-selected="false">Medidas</button>
+      </div>
+      <div class="pdp-tab-panel active" data-tab-panel="desc" role="tabpanel">
+        {{ product.description }}
+      </div>
+      <div class="pdp-tab-panel" data-tab-panel="specs" role="tabpanel">
+        {{ product.metafields.custom.specs | default: '<p>Consulta la descripción del producto.</p>' }}
+      </div>
+      <div class="pdp-tab-panel" data-tab-panel="sizes" role="tabpanel">
+        {{ product.metafields.custom.sizes | default: '<p>Guía de tallas en las imágenes del producto.</p>' }}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Sticky ATC mobile -->
+<div class="pdp-sticky" aria-hidden="true">
+  <div class="pdp-sticky__inner">
+    <span class="pdp-sticky__name">{{ product.title }}</span>
+    <span class="pdp-sticky__price" data-sticky-price>{{ current.price | money }}</span>
+  </div>
+  <button
+    class="btn btn-primary"
+    style="width:100%;height:50px;"
+    onclick="document.querySelector('[data-atc]').click()"
+    {% unless current.available %}disabled{% endunless %}
+  >
+    {{ current.available | ternary: 'Añadir al carrito', 'Agotado' }}
+  </button>
+</div>
+
+<!-- Reviews anchor -->
+<div id="reviews"></div>
+
+{% schema %}
+{ "name": "Product Main", "settings": [] }
+{% endschema %}

@@ -1,0 +1,65 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+
+    <div class="site-footer__grid">
+
+      <div class="footer-brand">
+        <a href="{{ routes.root_url }}" class="footer-brand__logo">{{ shop.name | upcase }}</a>
+        <p class="footer-brand__desc">{{ section.settings.description | default: 'A donde vayas, llévalos.' }}</p>
+        <div class="footer-socials">
+          {% if section.settings.instagram != blank %}
+            <a href="{{ section.settings.instagram }}" class="footer-social-btn" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            </a>
+          {% endif %}
+          {% if section.settings.tiktok != blank %}
+            <a href="{{ section.settings.tiktok }}" class="footer-social-btn" aria-label="TikTok" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.82a8.17 8.17 0 004.77 1.52V6.9a4.85 4.85 0 01-1-.21z"/></svg>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      {% for block in section.blocks %}
+        <div class="footer-col" {{ block.shopify_attributes }}>
+          <h4>{{ block.settings.heading }}</h4>
+          {{ block.settings.links }}
+        </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="site-footer__bottom">
+      <span>© {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados.</span>
+      <span>IVA incluido · Hecho en España</span>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "description", "label": "Descripción de marca", "default": "A donde vayas, llévalos." },
+    { "type": "url",      "id": "instagram",   "label": "Instagram URL" },
+    { "type": "url",      "id": "tiktok",      "label": "TikTok URL" }
+  ],
+  "blocks": [{
+    "type": "col", "name": "Columna de links",
+    "settings": [
+      { "type": "text",      "id": "heading", "label": "Título",  "default": "Tienda" },
+      { "type": "liquid",    "id": "links",   "label": "Links HTML",
+        "default": "<a href='/collections/all'>Colección</a><a href='/pages/about'>Nosotros</a><a href='/pages/faq'>FAQ</a>" }
+    ]
+  }],
+  "presets": [{
+    "name": "Footer",
+    "blocks": [
+      { "type": "col", "settings": { "heading": "Tienda", "default": "" } },
+      { "type": "col", "settings": { "heading": "Ayuda",  "default": "" } },
+      { "type": "col", "settings": { "heading": "Legal",  "default": "" } }
+    ]
+  }]
+}
+{% endschema %}

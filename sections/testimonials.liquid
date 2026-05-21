@@ -1,0 +1,73 @@
+<section class="section testimonials">
+  <div class="container">
+
+    <div class="section-header" data-reveal="up">
+      {% if section.settings.tag != blank %}
+        <span class="tag">{{ section.settings.tag }}</span>
+      {% endif %}
+      <h2 class="title">{{ section.settings.title }}</h2>
+    </div>
+
+    <div class="testimonials-grid" id="testimonials-grid" data-stagger>
+      {% for block in section.blocks %}
+        <article class="testimonial-card" {{ block.shopify_attributes }}>
+          {% if block.settings.image %}
+            <img
+              class="testimonial-card__photo"
+              src="{{ block.settings.image | img_url: '400x400', crop: 'center' }}"
+              alt="Foto de {{ block.settings.author }}"
+              loading="lazy"
+              width="400" height="400"
+            >
+          {% endif %}
+          <div class="testimonial-card__stars" aria-label="5 estrellas">
+            {% for i in (1..5) %}
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            {% endfor %}
+          </div>
+          <blockquote class="testimonial-card__text">"{{ block.settings.text }}"</blockquote>
+          <footer class="testimonial-card__author">
+            {{ block.settings.author }}{% if block.settings.city != blank %} · {{ block.settings.city }}{% endif %}
+          </footer>
+        </article>
+      {% endfor %}
+    </div>
+
+    <div class="carousel-dots" aria-hidden="true">
+      {% for block in section.blocks %}
+        <button class="carousel-dot {% if forloop.first %}active{% endif %}" aria-label="Testimonio {{ forloop.index }}"></button>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    { "type": "text", "id": "tag",   "label": "Etiqueta", "default": "Reseñas" },
+    { "type": "text", "id": "title", "label": "Título",   "default": "Lo que dicen sus humanos." }
+  ],
+  "blocks": [{
+    "type": "testimonial", "name": "Testimonio",
+    "settings": [
+      { "type": "image_picker", "id": "image",  "label": "Foto" },
+      { "type": "textarea",     "id": "text",   "label": "Texto", "default": "Llevé a Nala al mercado por primera vez. Se quedó mirando todo como si fuera suyo." },
+      { "type": "text",         "id": "author", "label": "Nombre", "default": "Sofía R." },
+      { "type": "text",         "id": "city",   "label": "Ciudad", "default": "Valencia" }
+    ]
+  }],
+  "max_blocks": 6,
+  "presets": [{
+    "name": "Testimonials",
+    "blocks": [
+      { "type": "testimonial", "settings": { "text": "Llevé a Nala al mercado por primera vez. Se quedó mirando todo como si fuera suyo.", "author": "Sofía R.", "city": "Valencia" } },
+      { "type": "testimonial", "settings": { "text": "El packaging era tan bonito que lo grabé antes de abrirlo. La mochila en persona es aún mejor.", "author": "Marta G.", "city": "Barcelona" } },
+      { "type": "testimonial", "settings": { "text": "Pensé que Thor no la aceptaría. En cinco minutos ya no quería salir de ella.", "author": "Javier P.", "city": "Madrid" } }
+    ]
+  }]
+}
+{% endschema %}

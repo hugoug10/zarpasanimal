@@ -1,0 +1,65 @@
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__wrap">
+
+      <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }}">
+        {% if section.settings.logo %}
+          <img src="{{ section.settings.logo | img_url: '220x' }}" alt="{{ shop.name }}" width="110" height="auto" loading="eager">
+        {% else %}
+          {{ shop.name | upcase }}
+        {% endif %}
+      </a>
+
+      <nav aria-label="Principal">
+        <ul class="site-header__nav">
+          {% for link in linklists[section.settings.menu].links %}
+            <li>
+              <a href="{{ link.url }}" {% if link.active %}aria-current="page"{% endif %}>
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        <button class="icon-btn" data-cart-open aria-label="Carrito ({{ cart.item_count }} artículos)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-badge {% if cart.item_count > 0 %}has-items{% endif %}" data-cart-count aria-live="polite">
+            {{ cart.item_count }}
+          </span>
+        </button>
+
+        <button class="burger-btn" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobile-menu" aria-label="Menú móvil" aria-hidden="true">
+  {% for link in linklists[section.settings.menu].links %}
+    <a href="{{ link.url }}" tabindex="-1">{{ link.title }}</a>
+  {% endfor %}
+  <a href="{{ routes.cart_url }}" class="btn btn-ghost" tabindex="-1" style="margin-top:16px;font-size:13px;">
+    Carrito ({{ cart.item_count }})
+  </a>
+</nav>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "link_list", "id": "menu", "label": "Menú", "default": "main-menu" }
+  ]
+}
+{% endschema %}

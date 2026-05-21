@@ -1,0 +1,62 @@
+<div class="page-faq container">
+  <h1 class="page-faq__title" data-reveal="up">{{ section.settings.title }}</h1>
+  {% if section.settings.sub != blank %}
+    <p class="page-faq__sub" data-reveal="up" data-delay="100">{{ section.settings.sub }}</p>
+  {% endif %}
+
+  {% assign current_group = '' %}
+  {% for block in section.blocks %}
+    {% if block.type == 'group' %}
+      {% if current_group != '' %}</div>{% endif %}
+      <div class="faq-group" {{ block.shopify_attributes }}>
+        <p class="faq-group__title">{{ block.settings.title }}</p>
+      {% assign current_group = block.settings.title %}
+    {% elsif block.type == 'item' %}
+      <div class="faq-item" {{ block.shopify_attributes }}>
+        <button class="faq-btn" aria-expanded="false">
+          {{ block.settings.question }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-answer" aria-hidden="true">
+          <div class="faq-answer__inner">{{ block.settings.answer }}</div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% if current_group != '' %}</div>{% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "text",     "id": "title", "label": "Título",    "default": "Preguntas frecuentes" },
+    { "type": "textarea", "id": "sub",   "label": "Subtítulo", "default": "Todo lo que necesitas saber antes de tu pedido." }
+  ],
+  "blocks": [
+    {
+      "type": "group", "name": "Grupo",
+      "settings": [{ "type": "text", "id": "title", "label": "Título del grupo", "default": "Envíos" }]
+    },
+    {
+      "type": "item", "name": "Pregunta",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Pregunta", "default": "¿Cuánto tarda en llegar?" },
+        { "type": "textarea", "id": "answer",   "label": "Respuesta", "default": "Los pedidos realizados antes de las 14h salen el mismo día. Entrega en 2–4 días laborables en España." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "FAQ",
+    "blocks": [
+      { "type": "group", "settings": { "title": "Envíos" } },
+      { "type": "item", "settings": { "question": "¿Cuánto tarda en llegar?", "answer": "Los pedidos realizados antes de las 14h salen el mismo día. Entrega en 2–4 días laborables en España peninsular." } },
+      { "type": "item", "settings": { "question": "¿El envío es gratuito?", "answer": "Sí, en pedidos superiores a €49 en España. Para el resto de Europa, a partir de €69." } },
+      { "type": "group", "settings": { "title": "Devoluciones" } },
+      { "type": "item", "settings": { "question": "¿Puedo devolver el producto?", "answer": "Tienes 30 días desde la recepción. El producto debe estar en estado original. Escríbenos a hola@zarpasanimal.com y lo gestionamos en 24h." } },
+      { "type": "group", "settings": { "title": "Producto" } },
+      { "type": "item", "settings": { "question": "¿Los materiales son seguros?", "answer": "Todos los materiales están certificados y son seguros para animales. Sin BPA, sin colorantes tóxicos, sin metales pesados." } }
+    ]
+  }]
+}
+{% endschema %}

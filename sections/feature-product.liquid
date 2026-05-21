@@ -1,0 +1,96 @@
+{%- liquid
+  assign product = all_products[section.settings.product]
+  assign img     = section.settings.image | default: product.featured_image
+  assign price   = section.settings.price_override
+  if price == blank and product != blank
+    assign price = product.price | money
+  endif
+  assign cta_url = section.settings.cta_url
+  if cta_url == blank and product != blank
+    assign cta_url = product.url
+  endif
+-%}
+
+<section style="background:var(--{{ section.settings.bg }});">
+  <div class="feature-split {% if section.settings.reverse %}reverse{% endif %}">
+
+    <div class="feature-split__img" data-reveal="left">
+      {% if img %}
+        <img
+          src="{{ img | img_url: '900x' }}"
+          srcset="{{ img | img_url: '600x' }} 600w, {{ img | img_url: '900x' }} 900w, {{ img | img_url: '1200x' }} 1200w"
+          sizes="(max-width:767px) 100vw, 50vw"
+          alt="{{ img.alt | default: section.settings.title }}"
+          loading="lazy"
+          width="900" height="1125"
+        >
+      {% else %}
+        <div style="background:var(--bone-2);width:100%;height:100%;min-height:500px;"></div>
+      {% endif %}
+    </div>
+
+    <div class="feature-split__body">
+      <div data-stagger>
+        {% if section.settings.tag != blank %}
+          <p class="feature-split__tag">{{ section.settings.tag }}</p>
+        {% endif %}
+
+        <h2 class="feature-split__title">{{ section.settings.title }}</h2>
+
+        {% if section.settings.text != blank %}
+          <p class="feature-split__text">{{ section.settings.text }}</p>
+        {% endif %}
+
+        {% if section.blocks.size > 0 %}
+          <ul class="feature-split__list">
+            {% for block in section.blocks %}
+              <li {{ block.shopify_attributes }}>{{ block.settings.item }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if price != blank %}
+          <p class="feature-split__price">{{ price }}</p>
+        {% endif %}
+
+        {% if cta_url != blank %}
+          <a href="{{ cta_url }}" class="btn btn-primary" data-magnetic>
+            {{ section.settings.cta_text | default: 'Ver producto' }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature Product",
+  "settings": [
+    { "type": "product",      "id": "product",        "label": "Producto" },
+    { "type": "image_picker", "id": "image",           "label": "Imagen (override)" },
+    { "type": "text",         "id": "tag",             "label": "Etiqueta",    "default": "Producto estrella" },
+    { "type": "textarea",     "id": "title",           "label": "Título",      "default": "La mochila que lo cambia todo." },
+    { "type": "textarea",     "id": "text",            "label": "Descripción", "default": "Diseñada para los que no quieren elegir entre su vida y su mascota." },
+    { "type": "text",         "id": "price_override",  "label": "Precio manual" },
+    { "type": "url",          "id": "cta_url",         "label": "URL botón" },
+    { "type": "text",         "id": "cta_text",        "label": "Texto botón", "default": "Conseguirla ahora" },
+    { "type": "select",       "id": "bg",              "label": "Fondo",
+      "options": [{"value":"white","label":"Blanco"},{"value":"bone","label":"Bone"}], "default": "bone" },
+    { "type": "checkbox",     "id": "reverse",         "label": "Imagen a la derecha", "default": false }
+  ],
+  "blocks": [{
+    "type": "feat", "name": "Característica",
+    "settings": [{ "type": "text", "id": "item", "label": "Texto", "default": "Ventana burbuja panorámica" }]
+  }],
+  "presets": [{
+    "name": "Feature Product",
+    "blocks": [
+      { "type": "feat", "settings": { "item": "Ventana burbuja panorámica" } },
+      { "type": "feat", "settings": { "item": "Para mascotas hasta 8kg" } },
+      { "type": "feat", "settings": { "item": "Materiales certificados seguros" } }
+    ]
+  }]
+}
+{% endschema %}

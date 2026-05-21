@@ -1,0 +1,76 @@
+<section class="hero" style="--hero-h:{{ section.settings.height }}vh;">
+
+  <div class="hero__bg" id="hero-parallax" aria-hidden="true">
+    {% if section.settings.video != blank %}
+      <video src="{{ section.settings.video }}" autoplay muted loop playsinline
+        poster="{% if section.settings.image %}{{ section.settings.image | img_url: '2000x' }}{% endif %}">
+      </video>
+    {% elsif section.settings.image %}
+      <img
+        src="{{ section.settings.image | img_url: '1800x' }}"
+        srcset="{{ section.settings.image | img_url: '800x' }} 800w, {{ section.settings.image | img_url: '1400x' }} 1400w, {{ section.settings.image | img_url: '1800x' }} 1800w"
+        sizes="100vw"
+        alt="{{ section.settings.image.alt | default: shop.name }}"
+        loading="eager"
+        fetchpriority="high"
+        width="1800"
+        height="1013"
+      >
+    {% else %}
+      <div style="background:var(--bone);width:100%;height:100%;"></div>
+    {% endif %}
+  </div>
+
+  <div class="hero__overlay" aria-hidden="true"></div>
+
+  <div class="hero__content">
+    {% if section.settings.eyebrow != blank %}
+      <span class="hero__eyebrow">{{ section.settings.eyebrow }}</span>
+    {% endif %}
+
+    <h1 class="hero__title">{{ section.settings.title }}</h1>
+
+    {% if section.settings.subtitle != blank %}
+      <p class="hero__sub">{{ section.settings.subtitle }}</p>
+    {% endif %}
+
+    <div class="hero__cta">
+      {% if section.settings.cta_url != blank %}
+        <a href="{{ section.settings.cta_url }}" class="btn btn-ghost btn-fw-mobile" data-magnetic>
+          {{ section.settings.cta_text | default: 'Ver la colección' }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if section.settings.show_scroll %}
+    <div class="hero__scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  {% endif %}
+
+</section>
+
+<style>
+  .hero { height: {{ section.settings.height }}vh; }
+</style>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "image",    "label": "Imagen de fondo" },
+    { "type": "text",         "id": "video",    "label": "URL vídeo MP4 (opcional)" },
+    { "type": "text",         "id": "eyebrow",  "label": "Etiqueta", "default": "Nueva colección 2026" },
+    { "type": "textarea",     "id": "title",    "label": "Título", "default": "A donde vayas,\nllévalos." },
+    { "type": "text",         "id": "subtitle", "label": "Subtítulo", "default": "La mochila transportín que no parece un transportín." },
+    { "type": "url",          "id": "cta_url",  "label": "URL botón" },
+    { "type": "text",         "id": "cta_text", "label": "Texto botón", "default": "Ver la mochila" },
+    { "type": "range",        "id": "height",   "min": 60, "max": 100, "step": 5, "unit": "vh", "label": "Altura", "default": 96 },
+    { "type": "checkbox",     "id": "show_scroll", "label": "Indicador de scroll", "default": true }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

@@ -1,0 +1,59 @@
+<section class="section" style="background:var(--white);">
+  <div class="container">
+
+    <div class="section-header" data-reveal="up">
+      {% if section.settings.tag != blank %}
+        <span class="tag">{{ section.settings.tag }}</span>
+      {% endif %}
+      <h2 class="title">{{ section.settings.title }}</h2>
+      {% if section.settings.sub != blank %}
+        <p class="sub">{{ section.settings.sub }}</p>
+      {% endif %}
+    </div>
+
+    <div class="products-grid" data-stagger>
+      {% if section.settings.collection != blank %}
+        {% assign col = collections[section.settings.collection] %}
+        {% for product in col.products limit: section.settings.limit %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      {% else %}
+        {% for block in section.blocks %}
+          {% assign product = all_products[block.settings.product] %}
+          {% if product != blank %}
+            {% render 'product-card', product: product %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if section.settings.cta_url != blank %}
+      <div style="text-align:center;margin-top:48px;" data-reveal="up" data-delay="300">
+        <a href="{{ section.settings.cta_url }}" class="btn btn-secondary" data-magnetic>
+          {{ section.settings.cta_text | default: 'Ver toda la colección' }}
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Products Grid",
+  "settings": [
+    { "type": "text",       "id": "tag",        "label": "Etiqueta" },
+    { "type": "text",       "id": "title",      "label": "Título",  "default": "Diseñados para ellos." },
+    { "type": "text",       "id": "sub",        "label": "Subtítulo" },
+    { "type": "collection", "id": "collection", "label": "Colección" },
+    { "type": "range",      "id": "limit",      "min": 2, "max": 8, "step": 1, "label": "Nº productos", "default": 4 },
+    { "type": "url",        "id": "cta_url",    "label": "URL botón" },
+    { "type": "text",       "id": "cta_text",   "label": "Texto botón", "default": "Ver toda la colección" }
+  ],
+  "blocks": [{
+    "type": "product", "name": "Producto",
+    "settings": [{ "type": "product", "id": "product", "label": "Producto" }]
+  }],
+  "presets": [{ "name": "Products Grid" }]
+}
+{% endschema %}
