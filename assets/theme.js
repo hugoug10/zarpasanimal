@@ -382,13 +382,14 @@ const ZA = (() => {
     thumbs.forEach(thumb => {
       thumb.addEventListener('click', () => {
         const src = thumb.dataset.src;
+        if (!src) return;
         mainImg.style.opacity   = '0';
         mainImg.style.transform = 'scale(.97)';
         setTimeout(() => {
-          mainImg.src = src;
-          mainImg.style.opacity   = '1';
-          mainImg.style.transform = 'scale(1)';
-        }, 200);
+          mainImg.src             = src;
+          mainImg.style.opacity   = '';
+          mainImg.style.transform = '';
+        }, 260);
         thumbs.forEach(t => t.classList.toggle('active', t === thumb));
       });
     });
